@@ -3,8 +3,8 @@
 	|--------------------------------------------------------------------------
 	| Author Controller
 	|--------------------------------------------------------------------------
-	|  To get variables via AJAX,
-    |  Get author data from DB  
+ 	|  To get variables via AJAX,
+        |  Get author data from DB  
 	|  To pass the datas on    
 	*/
 class AuthorController extends BaseController {
