@@ -9,16 +9,16 @@
 	*/
 class AuthorController extends BaseController {
 
-
-	public function getAjax()
-	{	$books = DB::table('books')->get();
+	public function getAjax(){
 		$idz=Input::get("id");
-		foreach($books as $book){
-			if ($book->author_id==$idz){
+		foreach(Author::find($idz)->books as $book){
 				echo $book->id.'+'.$book->title.'|';
-			}
 		}
-		return;
+	}
+
+	public function getName(){
+		echo Input::get("id");
+
 	}
 
 }

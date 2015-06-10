@@ -14,10 +14,9 @@ class BookController extends BaseController {
 	public function showBooks()
 	{
 		/*pulls tables from database for use in views*/
-		$authors = DB::table('authors')->get();
-		$books = DB::table('books')->get();
+		$authors = Author::with('books')->get();
 		
-		return View::make('books', ['authors' => $authors, 'books'=>$books]);
+		return View::make('books', ['authors' => $authors]);
 	}
 
 }

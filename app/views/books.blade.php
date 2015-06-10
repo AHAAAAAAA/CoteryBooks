@@ -3,8 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Books</title>
-        <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -17,38 +15,29 @@
 			url: 'id',
 			data:{id:id},
 			success: function(data){ 
-				console.log(data);
 				var bookData = data.split('|');
-				var bookContainerEl = document.getElementById('books');
-				bookContainerEl.innerHTML = '';
-				var infoContainerEl = document.getElementById('info');
-				infoContainerEl.innerHTML = 'Pick a book!';
-				for (var i = 0; i < bookData.length - 1; i++) {
-					var bookEl = document.createElement('li');
+				$(".books").empty();
+				$(".info").empty().append('Pick a book!');
+				for (var i = 0; i <	bookData.length - 1; i++) {
+					var book = $('<li>');
 					var tmp = bookData[i].split("+");
-					var bookId = tmp[0];
-					var bookTitle = tmp[1];
-					bookEl.innerHTML = bookTitle;
-					bookEl.id = "book-" + bookId;
-					bookEl.onclick= infoClick.bind(null, bookId);
-					bookContainerEl.appendChild(bookEl);
+					book.attr("id", 'book-'+tmp[0]).append(tmp[1]).click(infoClick.bind(null, tmp[0]));
+					$(".books").append(book);
 				}
 			}
 
 		});
   	}
+
   	function infoClick(id){ /*gets book info from database via ajax*/
   		 $.ajax({
 			type: "GET",
 			url: 'info',
 			data:{id:id},
 			success: function(data){
-				var infoContainerEl = document.getElementById('info');
-				infoContainerEl.innerHTML= '';
-				var infoEl= document.createElement('p');
-				infoEl.innerHTML=data;
-				infoContainerEl.appendChild(infoEl);
+				$(".info").empty().append($('<p>')).append(data);
 			}
+			
 
 		});
 
@@ -96,6 +85,7 @@
 			opacity: 0.6;
 			color: black;
 		}
+
 		.info{
 			position: absolute;
 			top:40%;
@@ -132,12 +122,12 @@
          
          <ul class="dropdown-menu">
          <div class="authors"> 	
-	        @foreach ($authors as $author) <!-- Reading pulled data from database to display authors -->
-	        <li><div id="{{$author->id}}" onclick="authorClick({{$author->id}})" >{{($author->name)}}</div></li>
+	        @foreach (Author::get() as $author) <!-- Reading pulled data from database to display authors -->
+	        <li><div id="{{$author->id}}" onclick="authorClick({{$author->id}})" >{{$author->name}}</div></li>
 	        @endforeach
 	    </div>
         </ul>
-        
+        <li> <a href="add">Add!</a></li>
         </li>
       </ul>
     </div>

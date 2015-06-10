@@ -11,16 +11,11 @@
 
 class InfoController extends BaseController {
 
+	public function getAjax(){
 
-	public function getAjax()
-	{	$books = DB::table('books')->get();
 		$idz=Input::get("id");
-		foreach($books as $book){
-			if ($book->id==$idz){ /*matches book id to find info, fix conditional since for loop is redundant*/
-				echo $book->text;
-			}
+		echo Book::find($idz)->text;
 		}
-		return;
 	}
 
-}
+
